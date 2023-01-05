@@ -1,0 +1,35 @@
+{
+  "result": "success",
+  "requestId": "8cee8dde633a53eb3723",
+  "transactionId": "ta_jrvklnaA4AzWJxgD",
+  "title": "TR-BRA-7WTSCGX",
+  "posId": "ps_A0dYoElpjOV1W2B6",
+  "status": "pending",
+  "date": {
+    "creation": "2022-12-31 15:17:54",
+    "realization": null
+  },
+  "amount": 99.99,
+  "currency": "PLN",
+  "description": "Ebook",
+  "hiddenDescription": "",
+  "payer": {
+    "payerId": "py_zgLyJAoQzX1GqvnZ",
+    "email": "johnny@example.com",
+    "name": "John Doe",
+    "phone": "",
+    "address": "",
+    "city": "",
+    "country": "PL",
+    "postalCode": ""
+  },
+  "payments": {
+    "status": "pending",
+    "method": "pay_by_link",
+    "amountPaid": 0,
+    "date": {
+      "realization": null
+    }
+  },
+  "transactionPaymentUrl": "https:\/\/secure.tpay.com\/?gtitle=TR-BRA-7WTSCGX&uid=01GNM8QQ0FJ8CNPGSEKNDK6J7B"
+}

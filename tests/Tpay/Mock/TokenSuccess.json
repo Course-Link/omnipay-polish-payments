@@ -1,0 +1,8 @@
+{
+  "issued_at": 1672495861,
+  "scope": "read",
+  "expires_in": 7200,
+  "token_type": "Bearer",
+  "client_id": "1010-e5736adfd4bc5d8c",
+  "access_token": "d8c969940574834c06f83083407aa462470d7045"
+}

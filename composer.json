@@ -1,0 +1,60 @@
+{
+  "name": "course-link/omnipay-polish-payments",
+  "type": "library",
+  "description": "Polish payments drivers for the Omnipay payment processing library",
+  "keywords": [
+    "polish",
+    "payments",
+    "przelewy24",
+    "tpay",
+    "paynow",
+    "payu",
+    "imoje",
+    "gateway",
+    "merchant",
+    "omnipay",
+    "pay",
+    "payment"
+  ],
+  "homepage": "https://github.com/Course-Link/omnipay-polish-payments",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dawid Holka"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CourseLink\\Payments\\": "src/Payments",
+      "Omnipay\\imoje\\": "src/imoje/",
+      "Omnipay\\Paynow\\": "src/Paynow/",
+      "Omnipay\\PayU\\": "src/PayU/",
+      "Omnipay\\Przelewy24\\": "src/Przelewy24/",
+      "Omnipay\\Tpay\\": "src/Tpay/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CourseLink\\Payments\\Tests\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "ext-json": "*",
+    "omnipay/common": "~3.0"
+  },
+  "require-dev": {
+    "pestphp/pest": "^1.22",
+    "phpunit/phpunit": "^9.3",
+    "mockery/mockery": "^1.5",
+    "php-http/mock-client": "^1.5",
+    "php-http/message": "^1.13",
+    "guzzlehttp/guzzle": "^7.0",
+    "php-http/guzzle7-adapter": "^1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
