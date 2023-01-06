@@ -33,6 +33,7 @@
       "Omnipay\\Tpay\\": "src/Tpay/"
     }
   },
+  "minimum-stability": "dev",
   "autoload-dev": {
     "psr-4": {
       "CourseLink\\Omnipay\\Tests\\": "tests"

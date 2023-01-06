@@ -74,7 +74,7 @@ class Notification implements NotificationInterface
 
         $body = $this->getData();
 
-        $expectedSignature = hash($headers['alg'], json_encode($body) . $this->gateway->getServiceKey());
+        $expectedSignature = hash($headers['alg'], json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . $this->gateway->getServiceKey());
 
         return $headers['signature'] === $expectedSignature;
     }
