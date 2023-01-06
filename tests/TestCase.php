@@ -11,6 +11,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Adapter\Guzzle7\Client as GuzzleAdapter;
 use GuzzleHttp\Psr7\Response;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class TestCase extends PHPUnitTestCase
 {
@@ -22,6 +23,7 @@ class TestCase extends PHPUnitTestCase
     private GuzzleAdapter $guzzleAdapter;
     private ClientInterface $httpClient;
 
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,6 +33,7 @@ class TestCase extends PHPUnitTestCase
             'handler' => $this->handlerStack,
             'allow_redirects' => false,
         ]);
+        $this->httpRequest = new HttpRequest;
         $this->guzzleAdapter = new GuzzleAdapter($this->guzzleClient);
         $this->httpClient = new Client($this->guzzleAdapter);
     }
@@ -38,6 +41,11 @@ class TestCase extends PHPUnitTestCase
     public function getHttpClient(): ClientInterface
     {
         return $this->httpClient;
+    }
+
+    public function getHttpRequest(): HttpRequest
+    {
+        return $this->httpRequest;
     }
 
     public function mockResponse(Response $response)

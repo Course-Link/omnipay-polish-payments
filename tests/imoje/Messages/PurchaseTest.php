@@ -5,8 +5,9 @@ use CourseLink\Omnipay\Tests\TestCase;
 uses(TestCase::class);
 
 beforeEach(function () {
-    $this->gateway = setupImoje($this->getHttpClient());
+    $this->gateway = setupImoje($this->getHttpClient(), $this->getHttpRequest());
 });
+
 
 it('supports purchase', function () {
     expect($this->gateway->supportsPurchase())->toBeTrue();

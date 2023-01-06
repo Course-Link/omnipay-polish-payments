@@ -4,6 +4,7 @@ namespace Omnipay\imoje\Messages;
 
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\imoje\Gateway;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class Notification implements NotificationInterface
 {
@@ -54,14 +55,27 @@ class Notification implements NotificationInterface
 
     protected function checkSignature(): bool
     {
-        $merchantId = $this->headers['X-IMoje-Signature']['merchantid'];
-        $serviceId = $this->headers['X-IMoje-Signature']['serviceid'];
-        $signature = $this->headers['X-IMoje-Signature']['signature'];
-        $alg = $this->headers['X-IMoje-Signature']['alg'];
+        if (!isset($this->headers['x-imoje-signature'][0])) {
+            return false;
+        }
+
+        $headers = array_reduce(
+            explode(';', $this->headers['x-imoje-signature'][0]),
+            function ($carry, $item) {
+                [$key, $value] = explode('=', $item);
+                $carry[trim($key)] = trim($value);
+                return $carry;
+            }
+        );
+
+        if (!isset($headers['signature'], $headers['merchantid'], $headers['serviceid'], $headers['alg'])) {
+            return false;
+        }
+
         $body = $this->getData();
 
-        $expectedSignature = hash($alg, json_encode($body) . $this->gateway->getServiceKey());
+        $expectedSignature = hash($headers['alg'], json_encode($body) . $this->gateway->getServiceKey());
 
-        return $signature === $expectedSignature;
+        return $headers['signature'] === $expectedSignature;
     }
 }

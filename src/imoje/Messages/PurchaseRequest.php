@@ -22,22 +22,22 @@ class PurchaseRequest extends AbstractRequest
             'customer'
         );
 
-        return [
+        return array_filter([
             'serviceId' => $this->getServiceId(),
             'amount' => $this->getAmountInteger(),
             'currency' => $this->getCurrency(),
-            'orderID' => $this->getTransactionId(),
+            'orderId' => $this->getTransactionId(),
             'title' => $this->getDescription(),
             'returnUrl' => $this->getReturnUrl(),
             'successReturnUrl' => $this->getReturnUrl(),
-            'failedReturnUrl' => $this->getCancelUrl(),
+            'failureReturnUrl' => $this->getCancelUrl(),
             'customer' => [
                 'firstName' => $this->getCustomer()->getFirstName(),
                 'lastName' => $this->getCustomer()->getLastName(),
                 'email' => $this->getCustomer()->getEmail(),
                 'locale' => $this->getLanguage()
             ]
-        ];
+        ]);
     }
 
     public function sendData($data): PurchaseResponse

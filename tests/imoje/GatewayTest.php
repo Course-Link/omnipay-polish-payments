@@ -5,9 +5,9 @@ use Omnipay\imoje\Gateway;
 
 uses(TestCase::class);
 
-function setupImoje($httpClient)
+function setupImoje($httpClient, $httpRequest)
 {
-    $gateway = new Gateway($httpClient);
+    $gateway = new Gateway($httpClient, $httpRequest);
     $gateway->initialize([
         'merchantId' => 'a7p6g8iumujsjhkh1swc',
         'serviceId' => '31a9f4ec-349e-4bad-ab3b-302cd2750047',
@@ -18,7 +18,19 @@ function setupImoje($httpClient)
 }
 
 beforeEach(function () {
-    $this->gateway = setupImoje($this->getHttpClient());
+    $request = $this->getHttpRequest();
+    $request->initialize(
+        [], //GET
+        [], //POST
+        [], //Attributes,
+        [], //Cookies
+        [], //Files,
+        [
+            'HTTP_x-imoje-signature' => 'merchantid=6yt3gjtm9p7b8h9xsdqz;serviceid=63f574ed-d4ad-407e-9981-39ed7584a7b7;signature=ef61b7acc4ddcb086e700e2b411e190ab0950d0dfc84137ecb082290aaf3e5a9;alg=sha256'
+        ], //Server
+        file_get_contents(__DIR__ . '/Mock/Notification.json') // body
+    );
+    $this->gateway = setupImoje($this->getHttpClient(), $request);
 });
 
 it('passes complete gateway test', function () {
@@ -26,14 +38,6 @@ it('passes complete gateway test', function () {
 
     completeGatewayTest(
         gateway: $this->gateway,
-        notificationData: json_decode(file_get_contents(__DIR__ . '/Mock/Notification.json'), true),
-        notificationHeaders: [
-            'X-IMoje-Signature' => [
-                'merchantid' => '6yt3gjt1234f8h9xsdqz',
-                'serviceid' => '53f574ed-d4ad-aabe-9981-39ed7584a7b7',
-                'signature' => 'ef61b7acc4ddcb086e700e2b411e190ab0950d0dfc84137ecb082290aaf3e5a9',
-                'alg' => 'sha256',
-            ]
-        ],
+        notificationHeaders: [],notificationData: []
     );
 });
