@@ -44,7 +44,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $httpResponse = $this->httpClient->request(
             'post',
-            $this->getEndpoint() . $this->getMerchantId() . '/transaction',
+            $this->getEndpoint() . $this->getMerchantId() . '/payment',
             [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
