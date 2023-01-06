@@ -15,11 +15,10 @@ abstract class AbstractRequest extends BaseRequest implements LanguageInterface
     use HasLanguage;
 
     protected string $endpoint = 'https://api.tpay.com';
-    protected string $sandboxEndpoint = 'https://api.tpay.com';
 
     public function getEndpoint(): string
     {
-        return $this->getTestMode() ? $this->sandboxEndpoint : $this->endpoint;
+        return $this->endpoint;
     }
 
     public function getSupportedLanguages(): array

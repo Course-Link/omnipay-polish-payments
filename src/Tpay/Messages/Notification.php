@@ -36,11 +36,24 @@ class Notification implements NotificationInterface
 
     protected function checkStatus(): bool
     {
-        if ($this->getMd5Sum() !== $this->data['md5sum']) {
+        if (!$this->checkSignature()) {
             return false;
         }
 
         if (!$this->checkIpAddress()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function checkSignature(): bool
+    {
+        if (!isset($this->data['md5sum'])) {
+            return false;
+        }
+
+        if ($this->getMd5Sum() !== $this->data['md5sum']) {
             return false;
         }
 

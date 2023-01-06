@@ -42,6 +42,10 @@ class Gateway extends AbstractGateway implements OAuth2TokenInterface
 
     public function acceptNotification(array $options = []): NotificationInterface
     {
+        if(empty($options)){
+            parse_str($this->httpRequest->getContent(), $options);
+        }
+
         return new Notification($this, $options);
     }
 }

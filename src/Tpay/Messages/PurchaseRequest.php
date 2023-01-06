@@ -21,6 +21,11 @@ class PurchaseRequest extends AbstractRequest
                 'email' => $this->getCustomer()->getEmail(),
                 'name' => $this->getCustomer()->getName(),
             ],
+            'callbacks' => [
+                'notification' => [
+                    'url' => $this->getNotifyUrl(),
+                ]
+            ],
             'pay' => [
                 'groupId' => $this->getPaymentMethod(),
             ]
