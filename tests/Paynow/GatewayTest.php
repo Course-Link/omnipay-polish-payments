@@ -5,19 +5,31 @@ use Omnipay\Paynow\Gateway;
 
 uses(TestCase::class);
 
-function setupPaynow($httpClient)
+function setupPaynow($httpClient, $httpRequest)
 {
-    $gateway = new Gateway($httpClient);
+    $gateway = new Gateway($httpClient, $httpRequest);
     $gateway->initialize([
         'api_key' => '',
-        'signature_key' => '39e20e73-1896-4605-8063-9c966824a681',
+        'signature_key' => 'b69306b3-4267-4dd9-8950-d488f8ed3a71',
         'test_mode' => true,
     ]);
     return $gateway;
 }
 
 beforeEach(function () {
-    $this->gateway = setupPaynow($this->getHttpClient());
+    $request = $this->getHttpRequest();
+    $request->initialize(
+        [], //GET
+        [], //POST
+        [], //Attributes,
+        [], //Cookies
+        [], //Files,
+        [
+            'HTTP_signature' => 'cHszAC331f+RU8IUSqrscuBwTXkR530/2XcNAzw5bmI='
+        ], //Server
+        file_get_contents(__DIR__ . '/Mock/Notification.json') // body
+    );
+    $this->gateway = setupPaynow($this->getHttpClient(), $request);
 });
 
 it('passes complete gateway test', function () {
@@ -25,13 +37,6 @@ it('passes complete gateway test', function () {
 
     completeGatewayTest(
         gateway: $this->gateway,
-        notificationData: [
-            "paymentId" => "NOLV-8F9-08K-WGD",
-            "externalId" => "9fea23c7-cd5c-4884-9842-6f8592be65df",
-            "status" => "CONFIRMED",
-            "modifiedAt" => "2018-12-12T13:24:52"
-        ],
-        notificationHeaders: [
-            'Signature' => 'PXj9lVph0QhBph6ArGucdRS0GwhWVRmueiZ+aO6AuVw='
-        ]);
+        notificationHeaders: [], notificationData: []
+    );
 });

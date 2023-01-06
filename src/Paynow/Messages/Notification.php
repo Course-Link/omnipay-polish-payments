@@ -37,10 +37,10 @@ class Notification implements NotificationInterface
 
     protected function checkStatus(): bool
     {
-        if (!isset($this->headers['Signature'])) {
+        if (!isset($this->headers['signature'][0])) {
             return false;
         }
 
-        return $this->gateway->calculateSignature($this->getData()) === $this->headers['Signature'];
+        return $this->gateway->calculateSignature($this->getData()) === $this->headers['signature'][0];
     }
 }

@@ -6,7 +6,19 @@ use Omnipay\Common\Message\NotificationInterface;
 uses(TestCase::class);
 
 beforeEach(function () {
-    $this->gateway = setupPaynow($this->getHttpClient());
+    $request = $this->getHttpRequest();
+    $request->initialize(
+        [], //GET
+        [], //POST
+        [], //Attributes,
+        [], //Cookies
+        [], //Files,
+        [
+            'HTTP_signature' => 'cHszAC331f+RU8IUSqrscuBwTXkR530/2XcNAzw5bmI='
+        ], //Server
+        file_get_contents(__DIR__ . '/../Mock/Notification.json') // body
+    );
+    $this->gateway = setupPaynow($this->getHttpClient(), $request);
 });
 
 it('supports accepting notification', function () {
@@ -14,16 +26,9 @@ it('supports accepting notification', function () {
 });
 
 it('can accept a notification', function () {
-    $notification = $this->gateway->acceptNotification([
-        "paymentId" => "NOLV-8F9-08K-WGD",
-        "externalId" => "9fea23c7-cd5c-4884-9842-6f8592be65df",
-        "status" => "CONFIRMED",
-        "modifiedAt" => "2018-12-12T13:24:52"
-    ], [
-        'Signature' => 'PXj9lVph0QhBph6ArGucdRS0GwhWVRmueiZ+aO6AuVw='
-    ]);
+    $notification = $this->gateway->acceptNotification();
 
     expect($notification->getTransactionStatus())->toEqual(NotificationInterface::STATUS_COMPLETED)
-        ->and($notification->getTransactionReference())->toEqual('NOLV-8F9-08K-WGD')
+        ->and($notification->getTransactionReference())->toEqual('NOGN-4VF-XCR-KY4')
         ->and($notification->getMessage())->toEqual('CONFIRMED');
 });

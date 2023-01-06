@@ -24,6 +24,13 @@ class Gateway extends AbstractGateway
 
     public function acceptNotification(array $options = [], array $headers = []): NotificationInterface
     {
+        if(empty($options)){
+            $options = json_decode($this->httpRequest->getContent(), true);
+        }
+        if(empty($headers)){
+            $headers = $this->httpRequest->headers->all();
+        }
+
         return new Notification($this, $options, $headers);
     }
 }
