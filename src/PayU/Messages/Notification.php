@@ -46,16 +46,26 @@ class Notification implements NotificationInterface
 
     protected function verifySignature(): bool
     {
-        if (!isset($this->headers['OpenPayu-Signature']['signature'])) {
+        if(!isset($this->headers['openpayu-signature'][0])){
             return false;
         }
 
-        $signature = $this->headers['OpenPayu-Signature']['signature'];
-
-        $expectedSignature = md5(
-            json_encode($this->data) . $this->gateway->getSignatureKey()
+        $headers = array_reduce(
+            explode(';', $this->headers['openpayu-signature'][0]),
+            function ($carry, $item) {
+                [$key, $value] = explode('=', $item);
+                $carry[trim($key)] = trim($value);
+                return $carry;
+            }
         );
 
-        return $signature === $expectedSignature;
+        if (!isset($headers['signature'])) {
+            return false;
+        }
+
+        $incomingSignature = $headers['signature'];
+        $expectedSignature = md5(json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . $this->gateway->getSignatureKey());
+
+        return $incomingSignature === $expectedSignature;
     }
 }

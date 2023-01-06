@@ -5,9 +5,9 @@ use Omnipay\PayU\Gateway;
 
 uses(TestCase::class);
 
-function setupPayU($httpClient): Gateway
+function setupPayU($httpClient, $httpRequest): Gateway
 {
-    $gateway = new Gateway($httpClient);
+    $gateway = new Gateway($httpClient, $httpRequest);
     $gateway->initialize([
         'pos_id' => 300746,
         'signature_key' => 'b6ca15b0d1020e8094d9b5f8d163db54',
@@ -19,7 +19,19 @@ function setupPayU($httpClient): Gateway
 }
 
 beforeEach(function () {
-    $this->gateway = setupPayU($this->getHttpClient());
+    $request = $this->getHttpRequest();
+    $request->initialize(
+        [], //GET
+        [], //POST
+        [], //Attributes,
+        [], //Cookies
+        [], //Files,
+        [
+            'HTTP_openpayu-signature' => 'sender=checkout;signature=fc31745fb86a5a4b8f011efc005be308;algorithm=MD5;content=DOCUMENT'
+        ], //Server
+        file_get_contents(__DIR__ . '/Mock/Notification.json') // body
+    );
+    $this->gateway = setupPayU($this->getHttpClient(), $request);
 });
 
 it('passes complete gateway test', function () {
@@ -28,10 +40,7 @@ it('passes complete gateway test', function () {
 
     completeGatewayTest(
         gateway: $this->gateway,
-        notificationData: json_decode(file_get_contents(__DIR__ . '/Mock/Notification.json'), true),
-        notificationHeaders: [
-            'OpenPayu-Signature' => [
-                'signature' => 'e7273a927c8f3605a08945bb886a2317'
-            ]
-        ]);
+        notificationData: [],
+        notificationHeaders: [],
+    );
 });

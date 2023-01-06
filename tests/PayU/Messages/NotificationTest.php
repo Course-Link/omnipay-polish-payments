@@ -6,7 +6,19 @@ use Omnipay\Common\Message\NotificationInterface;
 uses(TestCase::class);
 
 beforeEach(function () {
-    $this->gateway = setupPayU($this->getHttpClient());
+    $request = $this->getHttpRequest();
+    $request->initialize(
+        [], //GET
+        [], //POST
+        [], //Attributes,
+        [], //Cookies
+        [], //Files,
+        [
+            'HTTP_openpayu-signature' => 'sender=checkout;signature=fc31745fb86a5a4b8f011efc005be308;algorithm=MD5;content=DOCUMENT'
+        ], //Server
+        file_get_contents(__DIR__ . '/../Mock/Notification.json') // body
+    );
+    $this->gateway = setupPayU($this->getHttpClient(), $request);
 });
 
 it('supports accepting notification', function () {
@@ -14,16 +26,9 @@ it('supports accepting notification', function () {
 });
 
 it('can accept a notification', function () {
-    $notification = $this->gateway->acceptNotification(
-        json_decode(file_get_contents(__DIR__.'/../Mock/Notification.json'), true),
-        [
-            'OpenPayu-Signature' => [
-                'signature' => 'e7273a927c8f3605a08945bb886a2317'
-            ]
-        ]
-    );
+    $notification = $this->gateway->acceptNotification();
 
     expect($notification->getTransactionStatus())->toEqual(NotificationInterface::STATUS_COMPLETED)
-        ->and($notification->getTransactionReference())->toEqual('LDLW5N7MF4140324GUEST000P01')
+        ->and($notification->getTransactionReference())->toEqual('NV61K1D7P4230106GUEST000P01')
         ->and($notification->getMessage())->toEqual('');
 });
