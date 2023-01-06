@@ -15,32 +15,16 @@ jobs:
           -   testbench: 7.*
         exclude:
           # excludes prefer-lowest 5.8 test on php 7.4
-          -   laravel: 5.8
-              php: 7.4
+          -   php: 7.4
               dependency-version: prefer-lowest
-          -   laravel: 5.8
-              php: 8.0
+          -   php: 8.0
               dependency-version: prefer-stable
-          -   laravel: 5.8
-              php: 8.0
+          -   php: 8.0
               dependency-version: prefer-lowest
-          -   laravel: 6.*
-              php: 8.0
-              dependency-version: prefer-lowest
-          -   laravel: 7.*
-              php: 8.0
-              dependency-version: prefer-lowest
-          -   laravel: 8.*
-              php: 8.0
-              dependency-version: prefer-lowest
-          -   laravel: 8.*
-              php: 7.2
-          -   laravel: 9.*
-              php: 7.2
-          -   laravel: 9.*
-              php: 7.3
-          -   laravel: 9.*
-              php: 7.4
+          -   php: 7.2
+          -   php: 7.2
+          -   php: 7.3
+          -   php: 7.4
 
     name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
