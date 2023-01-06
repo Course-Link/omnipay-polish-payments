@@ -1,6 +1,6 @@
 <?php
 
-namespace CourseLink\Payments;
+namespace CourseLink\Omnipay;
 
 use Omnipay\Common\Helper;
 use Omnipay\Common\ParametersTrait;

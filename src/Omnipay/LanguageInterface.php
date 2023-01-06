@@ -1,6 +1,6 @@
 <?php
 
-namespace CourseLink\Payments;
+namespace CourseLink\Omnipay;
 
 interface LanguageInterface
 {

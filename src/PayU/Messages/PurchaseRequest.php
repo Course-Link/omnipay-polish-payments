@@ -2,7 +2,7 @@
 
 namespace Omnipay\PayU\Messages;
 
-use CourseLink\Payments\HasCustomer;
+use CourseLink\Omnipay\HasCustomer;
 use GuzzleHttp\Client;
 
 class PurchaseRequest extends AbstractRequest

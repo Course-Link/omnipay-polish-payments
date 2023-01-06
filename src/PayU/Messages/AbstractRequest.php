@@ -2,8 +2,8 @@
 
 namespace Omnipay\PayU\Messages;
 
-use CourseLink\Payments\HasLanguage;
-use CourseLink\Payments\HasOAuth2Token;
+use CourseLink\Omnipay\HasLanguage;
+use CourseLink\Omnipay\HasOAuth2Token;
 use Omnipay\Common\Message\AbstractRequest as BaseRequest;
 use Omnipay\PayU\HasPayUCredentials;
 

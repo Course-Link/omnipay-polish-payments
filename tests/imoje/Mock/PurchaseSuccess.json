@@ -1,0 +1,24 @@
+{
+  "payment": {
+    "id": "f86b4c43-940f-4a66-90e0-ff85416c481b",
+    "url": "https://paywall.imoje.pl/pay/f86b4c43-940f-4a66-90e0-ff85416c481b",
+    "serviceId": "62f574ed-d4ad-4a7e-9981-89ed7284aaba",
+    "orderId": "123123123",
+    "title": "123123123",
+    "amount": 100,
+    "currency": "PLN",
+    "returnUrl": "https://domain.com/return",
+    "failureReturnUrl": "https://domain.com/failure",
+    "successReturnUrl": "https://domain.com/success",
+    "customer": {
+      "firstName": "Jan",
+      "lastName": "Kowalski",
+      "email": "jan.kowalski@example.com",
+      "phone": "501501501"
+    },
+    "isActive": true,
+    "validTo": null,
+    "created": 1645182031,
+    "modified": 1645182031
+  }
+}

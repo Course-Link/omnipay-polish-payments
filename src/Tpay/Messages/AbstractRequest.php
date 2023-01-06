@@ -2,9 +2,9 @@
 
 namespace Omnipay\Tpay\Messages;
 
-use CourseLink\Payments\HasLanguage;
-use CourseLink\Payments\HasOAuth2Token;
-use CourseLink\Payments\LanguageInterface;
+use CourseLink\Omnipay\HasLanguage;
+use CourseLink\Omnipay\HasOAuth2Token;
+use CourseLink\Omnipay\LanguageInterface;
 use Omnipay\Common\Message\AbstractRequest as BaseRequest;
 use Omnipay\Tpay\HasTpayConfiguration;
 

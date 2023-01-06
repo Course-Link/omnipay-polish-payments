@@ -1,6 +1,6 @@
 <?php
 
-namespace CourseLink\Payments\Tests;
+namespace CourseLink\Omnipay\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Omnipay\Common\Http\ClientInterface;

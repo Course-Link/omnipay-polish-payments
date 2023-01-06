@@ -2,8 +2,8 @@
 
 namespace Omnipay\Tpay;
 
-use CourseLink\Payments\HasOAuth2Token;
-use CourseLink\Payments\OAuth2TokenInterface;
+use CourseLink\Omnipay\HasOAuth2Token;
+use CourseLink\Omnipay\OAuth2TokenInterface;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\NotificationInterface;

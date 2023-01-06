@@ -2,7 +2,7 @@
 
 namespace Omnipay\Paynow\Messages;
 
-use CourseLink\Payments\HasCustomer;
+use CourseLink\Omnipay\HasCustomer;
 
 class PurchaseRequest extends AbstractRequest
 {

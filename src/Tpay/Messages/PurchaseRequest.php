@@ -2,7 +2,7 @@
 
 namespace Omnipay\Tpay\Messages;
 
-use CourseLink\Payments\HasCustomer;
+use CourseLink\Omnipay\HasCustomer;
 use Omnipay\Common\Exception\InvalidRequestException;
 
 class PurchaseRequest extends AbstractRequest

@@ -25,7 +25,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "CourseLink\\Payments\\": "src/Payments",
+      "CourseLink\\Omnipay\\": "src/Omnipay",
       "Omnipay\\imoje\\": "src/imoje/",
       "Omnipay\\Paynow\\": "src/Paynow/",
       "Omnipay\\PayU\\": "src/PayU/",
@@ -35,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "CourseLink\\Payments\\Tests\\": "tests"
+      "CourseLink\\Omnipay\\Tests\\": "tests"
     }
   },
   "require": {

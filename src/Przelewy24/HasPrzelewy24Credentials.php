@@ -33,4 +33,39 @@ trait HasPrzelewy24Credentials
     {
         return $this->setParameter('crcKey', $value);
     }
+
+    public function getReportKey(): string
+    {
+        return $this->getParameter('reportKey');
+    }
+
+    public function setReportKey(string $value): self
+    {
+        return $this->setParameter('reportKey', $value);
+    }
+
+    public function getVerifyIpAddress(): bool
+    {
+        return $this->getParameter('verifyIpAddress');
+    }
+
+    public function setVerifyIpAddress(bool $value): self
+    {
+        return $this->setParameter('verifyIpAddress', $value);
+    }
+
+    public function getNotificationIpAddresses(): array
+    {
+        return $this->getParameter('notificationIpAddresses');
+    }
+
+    public function setNotificationIpAddresses($value): self
+    {
+        return $this->setParameter('notificationIpAddresses', $value);
+    }
+
+    public function getSignature(array $data): string
+    {
+        return hash('sha384', json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    }
 }

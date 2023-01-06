@@ -22,8 +22,8 @@ class Gateway extends AbstractGateway
         return $this->createRequest(PurchaseRequest::class, $options);
     }
 
-    public function acceptNotification(array $options = []): NotificationInterface
+    public function acceptNotification(array $options = [], array $headers = []): NotificationInterface
     {
-        return new Notification($this, $options);
+        return new Notification($this, $options, $headers);
     }
 }

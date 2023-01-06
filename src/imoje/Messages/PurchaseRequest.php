@@ -2,18 +2,31 @@
 
 namespace Omnipay\imoje\Messages;
 
-use CourseLink\Payments\HasCustomer;
+use CourseLink\Omnipay\HasCustomer;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 class PurchaseRequest extends AbstractRequest
 {
     use HasCustomer;
 
-    public function getData()
+    /**
+     * @throws InvalidRequestException
+     */
+    public function getData(): array
     {
+        $this->validate(
+            'serviceId',
+            'amount',
+            'currency',
+            'transactionId',
+            'customer'
+        );
+
         return [
             'serviceId' => $this->getServiceId(),
             'amount' => $this->getAmountInteger(),
             'currency' => $this->getCurrency(),
+            'orderID' => $this->getTransactionId(),
             'title' => $this->getDescription(),
             'returnUrl' => $this->getReturnUrl(),
             'successReturnUrl' => $this->getReturnUrl(),
@@ -22,11 +35,12 @@ class PurchaseRequest extends AbstractRequest
                 'firstName' => $this->getCustomer()->getFirstName(),
                 'lastName' => $this->getCustomer()->getLastName(),
                 'email' => $this->getCustomer()->getEmail(),
+                'locale' => $this->getLanguage()
             ]
         ];
     }
 
-    public function sendData($data)
+    public function sendData($data): PurchaseResponse
     {
         $httpResponse = $this->httpClient->request(
             'post',
@@ -38,5 +52,9 @@ class PurchaseRequest extends AbstractRequest
             ],
             json_encode($data),
         );
+
+        $data = json_decode($httpResponse->getBody()->getContents(), true);
+
+        return $this->response = new PurchaseResponse($this, $data);
     }
 }
