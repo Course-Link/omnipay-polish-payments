@@ -23,6 +23,6 @@ abstract class AbstractRequest extends BaseRequest implements LanguageInterface
 
     public function getSupportedLanguages(): array
     {
-        return ['pl', 'en', 'fr', 'es', 'it', 'ru'];
+        return ['pl', 'en', 'de', 'fr', 'ru', 'it', 'es', 'uk'];
     }
 }

@@ -13,11 +13,15 @@ class PurchaseRequest extends AbstractRequest
         return [
             'amount' => $this->getAmountInteger(),
             'currency' => $this->getCurrency(),
+            'externalId' => $this->getTransactionId(),
             'description' => $this->getDescription(),
             'continueUrl' => $this->getReturnUrl(),
-            'externalId' => $this->getTransactionId(),
             'buyer' => [
                 'email' => $this->getCustomer()->getEmail(),
+                'firstName' => $this->getCustomer()->getFirstName(),
+                'lastName' => $this->getCustomer()->getLastName(),
+                'phone' => $this->getCustomer()->getPhone(),
+                'locale' => $this->getLanguageBCP47(),
             ],
         ];
     }

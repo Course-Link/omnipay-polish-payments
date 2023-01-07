@@ -23,24 +23,4 @@ trait HasTpayConfiguration
     {
         return $this->setParameter('securityCode', $value);
     }
-
-    public function getVerifyIpAddress(): bool
-    {
-        return $this->getParameter('verifyIpAddress');
-    }
-
-    public function setVerifyIpAddress(bool $value): self
-    {
-        return $this->setParameter('verifyIpAddress', $value);
-    }
-
-    public function getNotificationIpAddresses(): array
-    {
-        return $this->getParameter('notificationIpAddresses');
-    }
-
-    public function setNotificationIpAddresses($value): self
-    {
-        return $this->setParameter('notificationIpAddresses', $value);
-    }
 }

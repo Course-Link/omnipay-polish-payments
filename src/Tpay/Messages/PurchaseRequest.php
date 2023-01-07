@@ -16,12 +16,23 @@ class PurchaseRequest extends AbstractRequest
     {
         return [
             'amount' => $this->getAmount(),
+            'currency' => $this->getCurrency(),
             'description' => $this->getDescription(),
+            'lang' => $this->getLanguage(),
             'payer' => [
                 'email' => $this->getCustomer()->getEmail(),
                 'name' => $this->getCustomer()->getName(),
+                'phone' => $this->getCustomer()->getPhone(),
+                'address' => $this->getCustomer()->getAddress(),
+                'code' => $this->getCustomer()->getPostcode(),
+                'city' => $this->getCustomer()->getCity(),
+                'country' => $this->getCustomer()->getCountry(),
             ],
             'callbacks' => [
+                'payerUrls' => [
+                    'success' => $this->getReturnUrl(),
+                    'error' => $this->getCancelUrl(),
+                ],
                 'notification' => [
                     'url' => $this->getNotifyUrl(),
                 ]

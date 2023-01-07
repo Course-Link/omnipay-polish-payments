@@ -73,18 +73,6 @@ class Notification implements NotificationInterface
 
     protected function checkIpAddress(): bool
     {
-        if (!$this->gateway->getVerifyIpAddress()) {
-            return true;
-        }
-
-        if (!isset($this->data['ip_address'])) {
-            return false;
-        }
-
-        if (!in_array($this->data['ip_address'], $this->gateway->getNotificationIpAddresses())) {
-            return false;
-        }
-
-        return true;
+        return $this->gateway->checkNotificationIPAddress();
     }
 }

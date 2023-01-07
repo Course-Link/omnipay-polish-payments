@@ -4,11 +4,15 @@ namespace Omnipay\PayU\Messages;
 
 use CourseLink\Omnipay\HasCustomer;
 use GuzzleHttp\Client;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 class PurchaseRequest extends AbstractRequest
 {
     use HasCustomer;
 
+    /**
+     * @throws InvalidRequestException
+     */
     public function getData(): array
     {
         return [
@@ -19,16 +23,17 @@ class PurchaseRequest extends AbstractRequest
             'currencyCode' => $this->getCurrency(),
             'totalAmount' => $this->getAmountInteger(),
             'continueUrl' => $this->getReturnUrl(),
-            'products' => [
-
-            ],
+            'extOrderId' => $this->getTransactionId(),
             'buyer' => [
                 'email' => $this->getCustomer()->getEmail(),
                 'phone' => $this->getCustomer()->getPhone(),
                 'firstName' => $this->getCustomer()->getFirstName(),
                 'lastName' => $this->getCustomer()->getLastName(),
                 'language' => $this->getLanguage(),
-            ]
+            ],
+            'products' => [
+
+            ],
         ];
     }
 

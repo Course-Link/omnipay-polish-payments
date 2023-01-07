@@ -17,6 +17,7 @@ it('can make a purchase', function () {
 
     $response = $this->gateway->purchase([
         'customer' => getValidCustomer(),
+        'language' => 'pl',
     ])->send();
 
     expect($response->isSuccessful())->toBeFalse()
