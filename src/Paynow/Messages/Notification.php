@@ -2,6 +2,7 @@
 
 namespace Omnipay\Paynow\Messages;
 
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Paynow\Gateway;
 
@@ -25,9 +26,20 @@ class Notification implements NotificationInterface
         return $this->data['paymentId'];
     }
 
+    /**
+     * @throws InvalidResponseException
+     */
     public function getTransactionStatus(): string
     {
-        return $this->checkStatus() ? NotificationInterface::STATUS_COMPLETED : NotificationInterface::STATUS_FAILED;
+        if (!$this->validate()) {
+            throw new InvalidResponseException();
+        }
+
+        return match ($this->data['status']) {
+            'NEW', 'PENDING' => NotificationInterface::STATUS_PENDING,
+            'CONFIRMED' => NotificationInterface::STATUS_COMPLETED,
+            'EXPIRED', 'ERROR', 'ABANDONED' => NotificationInterface::STATUS_FAILED,
+        };
     }
 
     public function getMessage()
@@ -35,12 +47,24 @@ class Notification implements NotificationInterface
         return $this->data['status'];
     }
 
-    protected function checkStatus(): bool
+    protected function validate(): bool
     {
+        if (!isset($this->data['paymentId'])) {
+            return false;
+        }
+
+        if (!isset($this->data['status'])) {
+            return false;
+        }
+
         if (!isset($this->headers['signature'][0])) {
             return false;
         }
 
-        return $this->gateway->calculateSignature($this->getData()) === $this->headers['signature'][0];
+        if ($this->gateway->calculateSignature($this->getData()) !== $this->headers['signature'][0]) {
+            return false;
+        }
+
+        return true;
     }
 }
