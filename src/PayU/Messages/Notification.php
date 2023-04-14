@@ -41,6 +41,10 @@ class Notification implements NotificationInterface
             return false;
         }
 
+        if ($this->data['order']['status'] !== 'COMPLETED') {
+            return false;
+        }
+
         return true;
     }
 
