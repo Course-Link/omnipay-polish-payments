@@ -31,9 +31,7 @@ class Notification implements NotificationInterface
      */
     public function getTransactionStatus(): string
     {
-        if (!$this->validate()) {
-            throw new InvalidResponseException();
-        }
+        $this->validate();
 
         return match ($this->data['status']) {
             'NEW', 'PENDING' => NotificationInterface::STATUS_PENDING,
@@ -47,22 +45,25 @@ class Notification implements NotificationInterface
         return $this->data['status'];
     }
 
+    /**
+     * @throws InvalidResponseException
+     */
     protected function validate(): bool
     {
         if (!isset($this->data['paymentId'])) {
-            return false;
+            throw new InvalidResponseException('Missing paymentId');
         }
 
         if (!isset($this->data['status'])) {
-            return false;
+            throw new InvalidResponseException('Missing status');
         }
 
         if (!isset($this->headers['signature'][0])) {
-            return false;
+            throw new InvalidResponseException('Missing signature header');
         }
 
         if ($this->gateway->calculateSignature($this->getData()) !== $this->headers['signature'][0]) {
-            return false;
+            throw new InvalidResponseException('Invalid signature');
         }
 
         return true;
