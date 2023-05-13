@@ -2,11 +2,13 @@
 
 namespace Omnipay\Paynow\Messages;
 
+use CourseLink\Omnipay\ExtendedNotificationInterface;
+use CourseLink\Omnipay\TransactionStatus;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Paynow\Gateway;
 
-class Notification implements NotificationInterface
+class Notification implements NotificationInterface, ExtendedNotificationInterface
 {
     public function __construct(
         protected Gateway $gateway,
@@ -29,15 +31,24 @@ class Notification implements NotificationInterface
     /**
      * @throws InvalidResponseException
      */
-    public function getTransactionStatus(): string
+    public function getTransactionExtendedStatus(): TransactionStatus
     {
         $this->validate();
 
         return match ($this->data['status']) {
-            'NEW', 'PENDING' => NotificationInterface::STATUS_PENDING,
-            'CONFIRMED' => NotificationInterface::STATUS_COMPLETED,
-            'EXPIRED', 'ERROR', 'ABANDONED' => NotificationInterface::STATUS_FAILED,
+            'NEW', 'PENDING' => TransactionStatus::PENDING,
+            'CONFIRMED' => TransactionStatus::COMPLETED,
+            'EXPIRED', 'ABANDONED' => TransactionStatus::CANCELED,
+            'ERROR' => TransactionStatus::ERROR,
         };
+    }
+
+    /**
+     * @throws InvalidResponseException
+     */
+    public function getTransactionStatus(): string
+    {
+        return $this->getTransactionExtendedStatus()->toNotificationStatus();
     }
 
     public function getMessage()

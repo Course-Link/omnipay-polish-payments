@@ -2,10 +2,12 @@
 
 namespace Omnipay\Tpay\Messages;
 
+use CourseLink\Omnipay\ExtendedNotificationInterface;
+use CourseLink\Omnipay\TransactionStatus;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Tpay\Gateway;
 
-class Notification implements NotificationInterface
+class Notification implements NotificationInterface, ExtendedNotificationInterface
 {
     public function __construct(
         protected Gateway $gateway,
@@ -24,9 +26,14 @@ class Notification implements NotificationInterface
         return $this->data['tr_id'];
     }
 
+    public function getTransactionExtendedStatus(): TransactionStatus
+    {
+        return $this->checkStatus() ? TransactionStatus::COMPLETED : TransactionStatus::PENDING;
+    }
+
     public function getTransactionStatus(): string
     {
-        return $this->checkStatus() ? NotificationInterface::STATUS_COMPLETED : NotificationInterface::STATUS_FAILED;
+        return $this->getTransactionExtendedStatus()->toNotificationStatus();
     }
 
     public function getMessage(): string
