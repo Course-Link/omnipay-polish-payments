@@ -2,10 +2,12 @@
 
 namespace Omnipay\PayU\Messages;
 
+use CourseLink\Omnipay\ExtendedNotificationInterface;
+use CourseLink\Omnipay\TransactionStatus;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\PayU\Gateway;
 
-class Notification implements NotificationInterface
+class Notification implements NotificationInterface, ExtendedNotificationInterface
 {
     public function __construct(
         protected Gateway $gateway,
@@ -25,9 +27,14 @@ class Notification implements NotificationInterface
         return $this->data['order']['orderId'];
     }
 
+    public function getTransactionExtendedStatus(): TransactionStatus
+    {
+        return $this->checkStatus() ? TransactionStatus::COMPLETED : TransactionStatus::PENDING;
+    }
+
     public function getTransactionStatus(): string
     {
-        return $this->checkStatus() ? NotificationInterface::STATUS_COMPLETED : NotificationInterface::STATUS_FAILED;
+        return $this->getTransactionExtendedStatus()->toNotificationStatus();
     }
 
     public function getMessage(): string
@@ -50,7 +57,7 @@ class Notification implements NotificationInterface
 
     protected function verifySignature(): bool
     {
-        if(!isset($this->headers['openpayu-signature'][0])){
+        if (!isset($this->headers['openpayu-signature'][0])) {
             return false;
         }
 

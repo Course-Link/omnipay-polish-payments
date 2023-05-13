@@ -4,5 +4,5 @@ namespace CourseLink\Omnipay;
 
 interface ExtendedNotificationInterface
 {
-    public function getTransactionExtendedStatus(): string;
+    public function getTransactionExtendedStatus(): TransactionStatus;
 }
