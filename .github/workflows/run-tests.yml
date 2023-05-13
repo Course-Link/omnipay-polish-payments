@@ -1,6 +1,6 @@
 name: run-tests
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   test:
@@ -8,45 +8,45 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        php: [8.1]
-        dependency-version: [prefer-stable]
+        os: [ ubuntu-latest ]
+        php: [ 8.1, 8.2 ]
+        dependency-version: [ prefer-stable ]
         include:
-          -   testbench: 7.*
+          - testbench: 7.*
         exclude:
           # excludes prefer-lowest 5.8 test on php 7.4
-          -   php: 7.4
-              dependency-version: prefer-lowest
-          -   php: 8.0
-              dependency-version: prefer-stable
-          -   php: 8.0
-              dependency-version: prefer-lowest
-          -   php: 7.2
-          -   php: 7.2
-          -   php: 7.3
-          -   php: 7.4
+          - php: 7.4
+            dependency-version: prefer-lowest
+          - php: 8.0
+            dependency-version: prefer-stable
+          - php: 8.0
+            dependency-version: prefer-lowest
+          - php: 7.2
+          - php: 7.2
+          - php: 7.3
+          - php: 7.4
 
     name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
     steps:
-      -   name: Checkout code
-          uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v1
 
-      -   name: Cache dependencies
-          uses: actions/cache@v1
-          with:
-            path: ~/.composer/cache/files
-            key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
-      -   name: Setup PHP
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.php }}
-            extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-            coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
-      -   name: Install dependencies
-          run: |
-            composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
-      -   name: Execute tests
-          run: vendor/bin/pest
+      - name: Install dependencies
+        run: |
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+      - name: Execute tests
+        run: vendor/bin/pest
