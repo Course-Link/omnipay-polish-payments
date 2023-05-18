@@ -6,14 +6,17 @@ use CourseLink\Omnipay\HasNotificationIPVerification;
 use CourseLink\Omnipay\HasOAuth2Token;
 use CourseLink\Omnipay\NotificationIPVerificationInterface;
 use CourseLink\Omnipay\OAuth2TokenInterface;
+use CourseLink\Omnipay\PaymentMethodsInterface;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\PayU\Messages\Notification;
+use Omnipay\PayU\Messages\FetchPaymentMethodsRequest;
 use Omnipay\PayU\Messages\PurchaseRequest;
 use Omnipay\PayU\Messages\TokenRequest;
 
-class Gateway extends AbstractGateway implements OAuth2TokenInterface, NotificationIPVerificationInterface
+class Gateway extends AbstractGateway implements OAuth2TokenInterface, NotificationIPVerificationInterface, PaymentMethodsInterface
 {
     use HasPayUCredentials;
     use HasOAuth2Token;
@@ -62,5 +65,10 @@ class Gateway extends AbstractGateway implements OAuth2TokenInterface, Notificat
         }
 
         return new Notification($this, $options, $headers);
+    }
+
+    public function fetchPaymentMethods(array $options = []): AbstractRequest
+    {
+        return $this->createRequest(FetchPaymentMethodsRequest::class, $options);
     }
 }

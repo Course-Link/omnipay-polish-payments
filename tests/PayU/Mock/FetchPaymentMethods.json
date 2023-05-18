@@ -1,0 +1,28 @@
+{
+  "payByLinks": [
+    {
+      "value": "c",
+      "name": "Płatność online kartą płatniczą",
+      "brandImageUrl": "http://static.payu.com/images/mobile/logos/pbl_c.png",
+      "status": "ENABLED",
+      "minAmount": 50,
+      "maxAmount": 100000
+    },
+    {
+      "value": "o",
+      "name": "Pekao24Przelew",
+      "brandImageUrl": "http://static.payu.com/images/mobile/logos/pbl_o_off.png",
+      "status": "DISABLED",
+      "minAmount": 50,
+      "maxAmount": 100000
+    },
+    {
+      "value": "ab",
+      "name": "Płacę z Alior Bankiem",
+      "brandImageUrl": "http://static.payu.com/images/mobile/logos/pbl_ab_off.png",
+      "status": "TEMPORARY_DISABLED",
+      "minAmount": 50,
+      "maxAmount": 100000
+    }
+  ]
+}

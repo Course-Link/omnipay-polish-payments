@@ -1,0 +1,15 @@
+[
+  {
+    "type": "PBL",
+    "paymentMethods": [
+      {
+        "id": 1000,
+        "name": "mTransfer",
+        "description": "Zapłać przez mTransfer",
+        "image": "https://static.sandbox.paynow.pl/payment-method-icons/1000.png",
+        "status": "ENABLED",
+        "authorizationType": "REDIRECT"
+      }
+    ]
+  }
+]
